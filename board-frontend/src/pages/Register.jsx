@@ -1,4 +1,4 @@
-function Login() {
+function Register() {
    return (
       <>
          <></>
@@ -6,4 +6,4 @@ function Login() {
    )
 }
 
-export default Login
+export default Register

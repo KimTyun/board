@@ -1,4 +1,4 @@
-function logout() {
+function Home() {
    return (
       <>
          <></>
@@ -6,4 +6,4 @@ function logout() {
    )
 }
 
-export default logout
+export default Home
