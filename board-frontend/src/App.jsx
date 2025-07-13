@@ -2,8 +2,22 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/login'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { checkisAuthenticatedThunk } from './features/authSlice'
 
 function App() {
+   const dispatch = useDispatch()
+
+   useEffect(() => {
+      dispatch(checkisAuthenticatedThunk())
+         .unwrap()
+         .then(() => {
+            alert('로그인 확인중!!!')
+         })
+         .catch((e) => console.error(e))
+   }, [dispatch])
+
    return (
       <>
          <Routes>
