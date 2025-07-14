@@ -23,7 +23,7 @@ function Home() {
 
    return (
       <>
-         <>해윙</>
+         <>HI</>
          {error && <p style={{ color: 'red' }}>{error}</p>}
          <br />
          {isAuthenticated ? (

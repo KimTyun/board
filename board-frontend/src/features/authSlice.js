@@ -63,7 +63,6 @@ const authSlice = createSlice({
             state.error = null
          })
          .addCase(registerMemberThunk.fulfilled, (state, action) => {
-            console.log(action.payload, '액션점페이로드가몰가요')
             state.loading = false
             state.member = action.payload
          })
@@ -77,7 +76,6 @@ const authSlice = createSlice({
             state.error = null
          })
          .addCase(loginMemberThunk.fulfilled, (state, action) => {
-            console.log(action.payload, '액션점페이로드가몰가요')
             state.loading = false
             state.member = action.payload.member
             state.isAuthenticated = true
@@ -91,8 +89,7 @@ const authSlice = createSlice({
             state.loading = true
             state.error = null
          })
-         .addCase(logoutMemberThunk.fulfilled, (state, action) => {
-            console.log(action.payload, '액션점페이로드가몰가요')
+         .addCase(logoutMemberThunk.fulfilled, (state) => {
             state.loading = false
             state.member = null
             state.isAuthenticated = false
@@ -107,7 +104,6 @@ const authSlice = createSlice({
             state.error = null
          })
          .addCase(checkisAuthenticatedThunk.fulfilled, (state, action) => {
-            console.log(action.payload, '액션점페이로드가 몬가요')
             state.loading = false
             state.isAuthenticated = action.payload.isAuthenticated
             state.member = action.payload.member || null

@@ -11,11 +11,6 @@ function App() {
 
    useEffect(() => {
       dispatch(checkisAuthenticatedThunk())
-         .unwrap()
-         .then(() => {
-            alert('로그인 확인중!!!')
-         })
-         .catch((e) => console.error(e))
    }, [dispatch])
 
    return (

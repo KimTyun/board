@@ -3,11 +3,13 @@ const router = express.Router()
 const Member = require('../models/member')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+const { isNotLoggedIn, isLoggedIn } = require('./middlewares')
+
 router.get('/', (req, res) => {
    res.json({ message: '성공적으로 연결됨', url: req.baseUrl })
 })
 
-router.post('/join', async (req, res, next) => {
+router.post('/join', isNotLoggedIn, async (req, res, next) => {
    const { email, name, password } = req.body
 
    const exMember = await Member.findOne({
@@ -34,8 +36,7 @@ router.post('/join', async (req, res, next) => {
    })
 })
 
-router.post('/login', async (req, res, next) => {
-   console.log('멤버가몰까요', req.body)
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
    passport.authenticate('local', (authError, member, info) => {
       if (authError) {
          return next(authError)
@@ -67,7 +68,7 @@ router.post('/login', async (req, res, next) => {
    })(req, res, next)
 })
 
-router.get('/logout', async (req, res, next) => {
+router.get('/logout', isLoggedIn, async (req, res, next) => {
    req.logout((logoutError) => {
       if (logoutError) {
          logoutError.status = 500

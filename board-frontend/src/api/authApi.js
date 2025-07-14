@@ -12,10 +12,11 @@ const snsApi = axios.create({
 
 export const registerMember = async (memberData) => {
    try {
+      console.log('registerMember로그', memberData)
       const response = await snsApi.post('/auth/join', memberData)
       return response.data
    } catch (error) {
-      console.error(`API 오류👀 `, error)
+      console.error(`registerMember/API 오류👀 `, error)
       throw error
    }
 }
@@ -25,7 +26,7 @@ export const loginMember = async (loginData) => {
       const response = await snsApi.post('/auth/login', loginData)
       return response.data
    } catch (error) {
-      console.error(`API 오류👀 `, error)
+      console.error(`loginMember/API 오류👀 `, error)
       throw error
    }
 }
@@ -35,7 +36,7 @@ export const logoutMember = async () => {
       const response = await snsApi.get('/auth/logout')
       return response
    } catch (error) {
-      console.error(`API 오류👀 `, error)
+      console.error(`logoutMember/API 오류👀 `, error)
       throw error
    }
 }
@@ -46,7 +47,7 @@ export const checkAuthenticated = async () => {
       console.log('api에서 본 response', response)
       return response
    } catch (error) {
-      console.error(`API 오류👀 `, error)
+      console.error(`checkAuthenticated/API 오류👀 `, error)
       throw error
    }
 }

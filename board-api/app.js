@@ -8,6 +8,7 @@ require('dotenv').config()
 const cors = require('cors')
 
 const authRouter = require('./routes/auth')
+const postRouter = require('./routes/post')
 const passport = require('passport')
 const passportConfig = require('./passport')
 
@@ -49,12 +50,13 @@ app.use(
 )
 
 app.use('/auth', authRouter)
+app.use('/post', postRouter)
 
 app.use((err, req, res, next) => {
    const status = err.status || 500
    const message = err.message || '서버에러'
    console.log(err)
-   console.log('에러레요')
+   console.log('서버에러')
    res.status(status).json({
       success: false,
       message,
