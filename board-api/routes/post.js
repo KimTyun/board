@@ -40,18 +40,20 @@ router.get('/', (req, res, next) => {
  */
 router.post('/create', isLoggedIn, uploads.single('img'), async (req, res, next) => {
    try {
-      if (!req.file) {
-         const error = new Error('파일 업로드에 실패했습니다.')
-         error.status = 400
-         return next(error)
-      }
       const result = await Board.create({
          title: req.body.title,
          content: req.body.content,
          member_id: req.body.id,
-         img: req.file.filename,
+         img: req.file?.filename || null,
+      })
+
+      console.log('post/create 결과', result)
+      res.status(201).json({
+         success: true,
+         message: '성공적으로 게시물이 등록되었습니다.',
       })
    } catch (error) {
+      console.log(error.message)
       error.message = '게시글 등록중 에러발생'
       error.status = 500
       next(error)

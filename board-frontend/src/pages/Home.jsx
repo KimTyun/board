@@ -35,9 +35,15 @@ function Home() {
                <button>로그인하러가기</button>
             </Link>
          )}
-         <Link to={'/register'}>
-            <button>회원가입하러가기</button>
-         </Link>
+         {isAuthenticated ? (
+            <Link to={'/post/create'}>
+               <button>게시글 작성하기</button>
+            </Link>
+         ) : (
+            <Link to={'/register'}>
+               <button>회원가입하러가기</button>
+            </Link>
+         )}
          <p>현재 상태 : {isAuthenticated ? `로그인됨: ${member?.name}` : '로그인 안됨'}</p>
       </>
    )

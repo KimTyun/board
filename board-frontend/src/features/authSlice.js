@@ -38,7 +38,6 @@ export const checkisAuthenticatedThunk = createAsyncThunk('auth/checkisAuthentic
       const response = await checkAuthenticated()
       return response.data
    } catch (error) {
-      console.log(error)
       return rejectWithValue(error.response?.data?.message)
    }
 })
@@ -111,6 +110,7 @@ const authSlice = createSlice({
          .addCase(checkisAuthenticatedThunk.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
+            console.log('리젝트,', state.error)
          })
    },
 })

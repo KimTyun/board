@@ -10,30 +10,36 @@ router.get('/', (req, res) => {
 })
 
 router.post('/join', isNotLoggedIn, async (req, res, next) => {
-   const { email, name, password } = req.body
+   try {
+      const { email, name, password } = req.body
 
-   const exMember = await Member.findOne({
-      where: { email },
-   })
-   if (exMember) {
-      const error = new Error('이미 존재하는 이메일 입니다.')
-      error.status = 409
-      return next(error)
+      const exMember = await Member.findOne({
+         where: { email },
+      })
+      if (exMember) {
+         const error = new Error('이미 존재하는 이메일 입니다.')
+         error.status = 409
+         return next(error)
+      }
+      const hash = await bcrypt.hash(password, 11)
+
+      const newMember = await Member.create({
+         email,
+         name,
+         password: hash,
+      })
+
+      console.log(newMember)
+      res.status(201).json({
+         success: true,
+         message: '회원가입 되었습니다.',
+         member: { email, name },
+      })
+   } catch (error) {
+      error.message = '회원가입중 서버에러 발생'
+      error.status = 500
+      next(error)
    }
-   const hash = await bcrypt.hash(password, 11)
-
-   const newMember = await Member.create({
-      email,
-      name,
-      password: hash,
-   })
-
-   console.log(newMember)
-   res.status(201).json({
-      success: true,
-      message: '회원가입 되었습니다.',
-      member: { email, name },
-   })
 })
 
 router.post('/login', isNotLoggedIn, async (req, res, next) => {

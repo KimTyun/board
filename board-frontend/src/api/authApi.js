@@ -44,10 +44,27 @@ export const logoutMember = async () => {
 export const checkAuthenticated = async () => {
    try {
       const response = await snsApi.get('/auth/status')
-      console.log('api에서 본 response', response)
       return response
    } catch (error) {
       console.error(`checkAuthenticated/API 오류👀 `, error)
+      throw error
+   }
+}
+
+export const createBoard = async function (formData) {
+   try {
+      console.log('createBoard/폼데이터', formData)
+      formData.forEach((v, k) => {
+         console.log(k, v)
+      })
+
+      const config = {
+         headers: { 'Content-Type': 'multipart/form-data' }, //파일 전송시 헤더에 넣어야함
+      }
+      const response = await snsApi.post('/post/create', formData, config)
+      return response
+   } catch (error) {
+      console.error(`createBoard/API 오류👀 `, error)
       throw error
    }
 }

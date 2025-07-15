@@ -46,7 +46,7 @@ app.use(
       },
    }),
    passport.initialize(),
-   passport.session(),
+   passport.session()
 )
 
 app.use('/auth', authRouter)
