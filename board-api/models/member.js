@@ -27,12 +27,20 @@ module.exports = class Member extends Sequelize.Model {
             paranoid: true,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
-         },
+         }
       )
    }
 
    static associate(db) {
       db.Member.hasMany(db.Board, {
+         foreignKey: 'member_id',
+         sourceKey: 'id',
+      })
+      db.Member.hasMany(db.Comment, {
+         foreignKey: 'member_id',
+         sourceKey: 'id',
+      })
+      db.Member.hasMany(db.Like, {
          foreignKey: 'member_id',
          sourceKey: 'id',
       })

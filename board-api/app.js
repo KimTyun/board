@@ -8,7 +8,7 @@ require('dotenv').config()
 const cors = require('cors')
 
 const authRouter = require('./routes/auth')
-const postRouter = require('./routes/post')
+const boardRouter = require('./routes/board')
 const passport = require('passport')
 const passportConfig = require('./passport')
 
@@ -50,7 +50,7 @@ app.use(
 )
 
 app.use('/auth', authRouter)
-app.use('/post', postRouter)
+app.use('/board', boardRouter)
 
 app.use((err, req, res, next) => {
    const status = err.status || 500

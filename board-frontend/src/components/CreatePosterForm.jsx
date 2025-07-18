@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createBoardThunk } from '../features/postSlice'
-import { Link, useNavigate } from 'react-router-dom'
+import { clearPostError, createBoardThunk, updateBoardThunk } from '../features/postSlice'
+import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { clearAuthError } from '../features/authSlice'
 
@@ -10,7 +10,7 @@ function CreatePosterForm() {
    const [imgUrl, setImgUrl] = useState(null)
    const [content, setContent] = useState('')
    const [title, setTitle] = useState('')
-   const { error, loading } = useSelector((s) => s.post)
+   const { error, loading, post } = useSelector((s) => s.post)
    const dispatch = useDispatch()
    const navigate = useNavigate()
 
@@ -33,18 +33,35 @@ function CreatePosterForm() {
       if (img) {
          const encodedImg = new File([img], encodeURIComponent(img.name), { type: img.type })
          formData.append('img', encodedImg)
-      } else {
-         formData.append('img', null)
       }
-      formData.forEach((v, k) => {
-         console.log(k, v)
-      })
-      dispatch(createBoardThunk(formData))
-         .unwrap()
-         .then(() => {
-            alert('게시글 등록 성공!!!!')
-            navigate('/')
-         })
+      if (post) {
+         formData.append('id', post.id)
+         console.log('post.id가 왜없죠??', post.id)
+      }
+
+      if (!post) {
+         dispatch(createBoardThunk(formData))
+            .unwrap()
+            .then(() => {
+               alert('게시글 등록 성공!!!!')
+               navigate('/')
+            })
+            .catch((e) => {
+               alert('게시글 등록 실패')
+               console.error(e)
+            })
+      } else {
+         dispatch(updateBoardThunk(formData))
+            .unwrap()
+            .then(() => {
+               alert('게시글 수정 성공!!!!')
+               navigate('/')
+            })
+            .catch((e) => {
+               alert('게시글 수정 실패')
+               console.error(e)
+            })
+      }
    }
 
    function onImagePreview(e) {
@@ -61,13 +78,28 @@ function CreatePosterForm() {
    useEffect(() => {
       return () => {
          dispatch(clearAuthError())
+         dispatch(clearPostError())
       }
    }, [dispatch])
+
+   useEffect(() => {
+      if (!post) {
+         return
+      }
+
+      if (post.img) {
+         setImgUrl(`${import.meta.env.VITE_APP_API_URL}/${post.img}`)
+      }
+
+      setContent(post.content)
+      setTitle(post.title)
+   }, [post])
+
    return (
       <>
          {error && (
             <>
-               <p style={{ color: 'red' }}>{error}</p>
+               <p style={{ color: 'red' }}>{error?.message}</p>
             </>
          )}
          <form method="post" onSubmit={onsubmit} encType="multipart/form-data">
@@ -83,8 +115,7 @@ function CreatePosterForm() {
             <input type="text" name="title" id="title" placeholder="제목 작성" value={title} onChange={(e) => setTitle(e.target.value)} />
             <br />
             <label htmlFor="content">게시글 작성 </label>
-            <input
-               type="text"
+            <textarea
                name="content"
                id="content"
                value={content}
@@ -92,11 +123,8 @@ function CreatePosterForm() {
                   setContent(e.target.value)
                }}
             />
-            <button type="submit">등록</button>
+            {loading || (post ? <button type="submit">수정</button> : <button type="submit">등록</button>)}
          </form>
-         <Link to={'/login'}>
-            <button>로그인</button>
-         </Link>
       </>
    )
 }

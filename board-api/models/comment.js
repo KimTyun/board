@@ -1,38 +1,37 @@
 const { Sequelize, DataTypes } = require('sequelize')
 
-module.exports = class Board extends Sequelize.Model {
+module.exports = class Comment extends Sequelize.Model {
    static init(sequelize) {
       return super.init(
          {
-            title: {
+            comment: {
                type: DataTypes.STRING,
                allowNull: false,
             },
-            content: {
-               type: DataTypes.TEXT,
+            isGuest: {
+               type: DataTypes.BOOLEAN,
                allowNull: false,
+               defaultValue: true,
             },
-            img: {
-               type: DataTypes.STRING,
+            guestPw: {
+               type: DataTypes.STRING(30),
                allowNull: true,
             },
-            views: {
+            parentId: {
                type: DataTypes.INTEGER,
-               allowNull: false,
-               defaultValue: 0,
-            },
-            likes: {
-               type: DataTypes.INTEGER,
-               allowNull: false,
-               defaultValue: 0,
+               allowNull: true,
+               references: {
+                  model: 'comments',
+                  key: 'id',
+               },
             },
          },
          {
             sequelize,
             timestamps: true, //createAt, updateAt ..등 자동 생성
             underscored: false,
-            modelName: 'Board',
-            tableName: 'board',
+            modelName: 'Comment',
+            tableName: 'comments',
             paranoid: true,
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
@@ -41,17 +40,13 @@ module.exports = class Board extends Sequelize.Model {
    }
 
    static associate(db) {
-      db.Board.belongsTo(db.Member, {
+      db.Comment.belongsTo(db.Member, {
          foreignKey: 'member_id',
          targetKey: 'id',
       })
-      db.Board.hasMany(db.Comment, {
+      db.Comment.belongsTo(db.Board, {
          foreignKey: 'board_id',
-         sourceKey: 'id',
-      })
-      db.Board.hasMany(db.Like, {
-         foreignKey: 'board_id',
-         sourceKey: 'id',
+         targetKey: 'id',
       })
    }
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { clearAuthError, loginMemberThunk } from '../features/authSlice'
 import { useEffect } from 'react'
+import { clearPostError } from '../features/postSlice'
 
 function Login() {
    const [email, setEmail] = useState('')
@@ -12,9 +13,9 @@ function Login() {
    const { loading, error } = useSelector((s) => s.auth)
 
    useEffect(() => {
-      // 로그인 컴포넌트를 벗어날때 error state가 null로 초기화
       return () => {
          dispatch(clearAuthError())
+         dispatch(clearPostError())
       }
    }, [dispatch])
 
@@ -36,6 +37,8 @@ function Login() {
          })
          .catch((err) => {
             console.error('로그인 실패', err)
+            alert(err)
+            navigate('/')
          })
    }
 

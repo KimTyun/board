@@ -1,0 +1,36 @@
+.navbar-wrap {
+   background-color: #1ca8af;
+}
+
+.navbar {
+   display: flex;
+   justify-content: center;
+   width: 1024px;
+   margin: 0 auto;
+   position: relative;
+   color: white;
+   font-weight: bold;
+}
+.navbar p,
+.navbar h1,
+.navbar a {
+   margin: 0;
+   text-decoration: none;
+   color: inherit;
+}
+
+.navbar > div:nth-of-type(1) {
+   display: flex;
+   align-items: center;
+   position: absolute;
+   height: 100%;
+   left: 0;
+}
+
+.navbar > div:nth-of-type(3) {
+   display: flex;
+   height: 100%;
+   align-items: center;
+   position: absolute;
+   right: 0;
+}
