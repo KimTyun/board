@@ -36,7 +36,6 @@ function CreatePosterForm() {
       }
       if (post) {
          formData.append('id', post.id)
-         console.log('post.id가 왜없죠??', post.id)
       }
 
       if (!post) {

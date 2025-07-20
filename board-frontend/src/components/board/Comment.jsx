@@ -7,13 +7,13 @@ function Comment({ post, member, isAuthenticated }) {
    }, [post])
    return (
       <>
-         <input type="text" name="comment" id="comment" />
+         {/* <input type="text" name="comment" id="comment" />
          <label htmlFor="comment">댓글달기</label>
          {isAuthenticated || (
             <>
                <input type="password" name="guestPw" id="guestPw" />
             </>
-         )}
+         )} */}
       </>
    )
 }

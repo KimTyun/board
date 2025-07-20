@@ -15,7 +15,7 @@ function ViewContent() {
    const { id } = useParams()
    useEffect(() => {
       dispatch(fetchBoardThunk(id))
-      console.log(member)
+
       return () => {
          incrementBoardViews(id)
          clearPost()

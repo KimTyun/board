@@ -12,7 +12,6 @@ const snsApi = axios.create({
 
 export const registerMember = async (memberData) => {
    try {
-      console.log('registerMember로그', memberData)
       const response = await snsApi.post('/auth/join', memberData)
       return response.data
    } catch (error) {
@@ -91,9 +90,7 @@ export const updateBoard = async function (formData) {
             'Content-Type': 'multipart/form-data',
          },
       }
-      formData.forEach((v, k) => {
-         console.log(k, v)
-      })
+
       const response = await snsApi.put(`/board/${formData.get('id')}`, formData, config)
       return response
    } catch (error) {

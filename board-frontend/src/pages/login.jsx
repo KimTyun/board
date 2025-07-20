@@ -21,7 +21,7 @@ function Login() {
 
    function onLogin(e) {
       e.preventDefault()
-      console.log(email, password)
+
       if (loading) {
          return
       }

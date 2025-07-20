@@ -20,7 +20,6 @@ function MainBoard() {
    }, [pagination])
 
    function onChangePage(_, v) {
-      console.log(v)
       setPage(v)
    }
 
